@@ -10,7 +10,7 @@ const express = require("express");
 const req = require("express/lib/request");
 const app = express();
 
-app.listen(3001, () => {
+app.listen(process.env.SERVER_PORT, () => {
   var today = new Date();
   var time =
     (today.getHours() % 12) +
