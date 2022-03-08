@@ -10,7 +10,7 @@ const express = require("express");
 const req = require("express/lib/request");
 const app = express();
 
-app.listen(process.env.SERVER_PORT, () => {
+app.listen(process.env.PORT, () => {
   var today = new Date();
   var time =
     (today.getHours() % 12) +
@@ -19,6 +19,7 @@ app.listen(process.env.SERVER_PORT, () => {
     ":" +
     today.getSeconds();
   console.log(`Sever restart at ${time}`);
+  console.log(process.env.PORT);
 });
 
 //MIDDLEWARE
@@ -27,6 +28,7 @@ app.use(cors());
 
 //DATABASE
 const { Client } = require("pg");
+const res = require("express/lib/response");
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -37,6 +39,10 @@ const client = new Client({
 client.connect();
 
 //BACKEND LOGIC
+
+app.get("/", (req, res) => {
+  res.send("This is back end root");
+});
 
 //USERS
 app.get("/allusers", async (req, res) => {
