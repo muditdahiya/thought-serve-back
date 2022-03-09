@@ -10,13 +10,14 @@ const express = require("express");
 const app = express();
 let port = process.env.PORT || 3001;
 
-app.listen(port, () => {
-  console.log(`Listening at port ${port}`);
-});
-
 //MIDDLEWARE
 app.use(express.json());
 app.use(cors());
+
+//START SERVER
+app.listen(port, () => {
+  console.log(`Listening at port ${port}`);
+});
 
 //DATABASE
 const { Client } = require("pg");
