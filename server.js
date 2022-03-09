@@ -9,7 +9,7 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3001, () => {
   var today = new Date();
   var time =
     (today.getHours() % 12) +
