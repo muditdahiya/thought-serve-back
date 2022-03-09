@@ -8,7 +8,7 @@ const cors = require("cors");
 //SERVER
 const express = require("express");
 const app = express();
-let port = process.env.PORT || 3001;
+let port = process.env.PORT || 3000;
 
 //MIDDLEWARE
 app.use(express.json());
@@ -27,8 +27,7 @@ const client = new Client({
 
 client.connect();
 
-//BACKEND LOGIC
-
+//REQUESTS
 app.get("/", (req, res) => {
   res.send("This is back end root");
 });
@@ -113,5 +112,6 @@ app.put("/deletetoppost", (req, res) => {
 
 //START SERVER
 app.listen(port, () => {
-  console.log(`Listening at port ${port}`);
+  console.log(`Listening on port ${port}`);
+  console.log(process.env.DATABASE_URL);
 });

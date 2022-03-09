@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js",
-    "start": "nodemon server.js",
-    "run": "node server.js"
+    "start": "node server.js",
+    "local": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
