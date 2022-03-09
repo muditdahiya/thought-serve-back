@@ -29,7 +29,7 @@ client.connect();
 
 //REQUESTS
 app.get("/", (req, res) => {
-  res.send("This is back end root");
+  res.send("This is back end of ThoughtServe");
 });
 
 //USERS
