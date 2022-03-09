@@ -14,11 +14,6 @@ let port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
-//START SERVER
-app.listen(port, () => {
-  console.log(`Listening at port ${port}`);
-});
-
 //DATABASE
 const { Client } = require("pg");
 const res = require("express/lib/response");
@@ -114,4 +109,9 @@ app.put("/deletetoppost", (req, res) => {
     "DELETE FROM posts WHERE id = (SELECT id FROM posts ORDER BY date desc LIMIT 1)"
   );
   res.send("Deleted top post");
+});
+
+//START SERVER
+app.listen(port, () => {
+  console.log(`Listening at port ${port}`);
 });
