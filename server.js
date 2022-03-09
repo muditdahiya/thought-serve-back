@@ -11,15 +11,7 @@ const app = express();
 let port = process.env.PORT || 3001;
 
 app.listen(port, () => {
-  var today = new Date();
-  var time =
-    (today.getHours() % 12) +
-    ":" +
-    today.getMinutes() +
-    ":" +
-    today.getSeconds();
-  console.log(`Sever restart at ${time}`);
-  console.log(process.env.PORT);
+  console.log(`Listening at port ${port}`);
 });
 
 //MIDDLEWARE
