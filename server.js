@@ -84,7 +84,7 @@ app.post("/newpost", (req, resp) => {
       if (err) {
         console.log("pg returned an error");
         console.log(err);
-        resp.send("Couldnt add post");
+        resp.send("Couldnt add post : " + err);
       }
       if (res) {
         resp.send("Added new post");
