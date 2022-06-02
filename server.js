@@ -8,7 +8,7 @@ const cors = require("cors");
 //SERVER
 const express = require("express");
 const app = express();
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 3001;
 
 //MIDDLEWARE
 app.use(express.json());
@@ -94,8 +94,15 @@ app.post("/newpost", (req, resp) => {
 });
 
 app.get("/allposts", async (req, res) => {
-  const allUsers = await client.query("SELECT * FROM posts ORDER BY date desc");
-  res.json(allUsers.rows);
+  const allPosts = await client.query("SELECT * FROM posts ORDER BY date desc");
+  res.json(allPosts.rows);
+});
+
+app.get("/posts/:id", async (req, res) => {
+  const id = req.params.id;
+  const post = await client.query(`SELECT * FROM posts WHERE id = ${id}`);
+
+  res.json(post.rows);
 });
 
 app.put("/deleteposts", (req, res) => {
