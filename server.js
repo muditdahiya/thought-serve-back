@@ -19,10 +19,11 @@ const { Client } = require("pg");
 const res = require("express/lib/response");
 
 const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  user: "postgres",
+  host: "35.209.182.114",
+  database: "thought_serve",
+  password: process.env.PGPASS,
+  port: 5432,
 });
 
 client.connect();
@@ -120,5 +121,4 @@ app.put("/deletetoppost", (req, res) => {
 //START SERVER
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
-  console.log(process.env.DATABASE_URL);
 });
