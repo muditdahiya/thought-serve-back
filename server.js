@@ -4,15 +4,19 @@ dotenv.config();
 
 //PACKAGES
 const cors = require("cors");
+var corsOptions = {
+  origin: "http://muditdahiya.com",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
 //SERVER
 const express = require("express");
 const app = express();
-let port = process.env.PORT || 3001;
+let port = process.env.PORT || 4000;
 
 //MIDDLEWARE
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 //DATABASE
 const { Client } = require("pg");
@@ -33,50 +37,53 @@ app.get("/", (req, res) => {
   res.send("This is back end of ThoughtServe");
 });
 
-//USERS
-app.get("/allusers", async (req, res) => {
-  const allUsers = await client.query("SELECT * FROM users");
-  res.json(allUsers.rows);
-});
+// //USERS
+// app.get("/allusers", async (req, res) => {
+//   const allUsers = await client.query("SELECT * FROM users");
+//   res.json(allUsers.rows);
+// });
 
-app.post("/newuser", (req, resp) => {
-  console.log(req.body);
-  client.query(
-    `INSERT INTO users (email, name, hash) VALUES ('${req.body.email}', '${req.body.name}', '${req.body.hash}')`,
-    (err, res) => {
-      if (err) {
-        console.log("pg returned an error");
-        resp.send("Couldnt add user");
-      }
-      if (res) {
-        resp.send("Added new user");
-      }
-    }
-  );
-});
+// app.post("/newuser", (req, resp) => {
+//   console.log(req.body);
+//   client.query(
+//     `INSERT INTO users (email, name, hash) VALUES ('${req.body.email}', '${req.body.name}', '${req.body.hash}')`,
+//     (err, res) => {
+//       if (err) {
+//         console.log("pg returned an error");
+//         resp.send("Couldnt add user");
+//       }
+//       if (res) {
+//         resp.send("Added new user");
+//       }
+//     }
+//   );
+// });
 
-app.put("/deleteusers", (req, res) => {
-  client.query("DELETE FROM users");
-  res.send("Deleted all users");
-});
+// app.put("/deleteusers", (req, res) => {
+//   client.query("DELETE FROM users");
+//   res.send("Deleted all users");
+// });
 
-app.put("/signin", async (req, resp) => {
-  try {
-    const ans = await client.query(
-      `SELECT hash FROM users WHERE email = '${req.body.email}'`
-    );
+// app.put("/signin", async (req, resp) => {
+//   try {
+//     const ans = await client.query(
+//       `SELECT hash FROM users WHERE email = '${req.body.email}'`
+//     );
 
-    if (req.body.hash == ans.rows[0].hash) {
-      resp.send("Successful login");
-    } else {
-      resp.send("Check password");
-    }
-  } catch (err) {
-    resp.send("No such user found");
-  }
-});
+//     if (req.body.hash == ans.rows[0].hash) {
+//       resp.send("Successful login");
+//     } else {
+//       resp.send("Check password");
+//     }
+//   } catch (err) {
+//     resp.send("No such user found");
+//   }
+// });
 
 //POSTS
+
+// create table posts (id serial primary key, author text, title text, content text not null, tags text, date date not null default current_date);
+
 app.post("/newpost", (req, resp) => {
   console.log(req.body);
   client.query(
