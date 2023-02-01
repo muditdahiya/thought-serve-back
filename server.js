@@ -5,7 +5,7 @@ dotenv.config();
 //PACKAGES
 const cors = require("cors");
 var corsOptions = {
-  origin: "http://muditdahiya.com",
+  origin: "*",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
@@ -24,7 +24,7 @@ const res = require("express/lib/response");
 
 const client = new Client({
   user: "postgres",
-  host: "35.209.182.114",
+  host: "muditdahiya.com",
   database: "thought_serve",
   password: process.env.PGPASS,
   port: 5432,
