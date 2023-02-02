@@ -5,7 +5,7 @@ dotenv.config();
 //PACKAGES
 const cors = require("cors");
 var corsOptions = {
-  origin: "*",
+  origin: "http://muditdahiya.com",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
