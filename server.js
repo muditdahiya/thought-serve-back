@@ -6,6 +6,7 @@ dotenv.config();
 const cors = require("cors");
 var corsOptions = {
   origin: "http://muditdahiya.com",
+  origin: "*",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
@@ -19,10 +20,10 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 //DATABASE
-const { Client } = require("pg");
+const { Pool } = require("pg");
 const res = require("express/lib/response");
 
-const client = new Client({
+const pool = new Pool({
   user: "postgres",
   host: "muditdahiya.com",
   database: "thought_serve",
@@ -30,63 +31,21 @@ const client = new Client({
   port: 5432,
 });
 
-client.connect();
+pool.connect();
 
 //REQUESTS
 app.get("/", (req, res) => {
+  client.connect();
   res.send("This is back end of ThoughtServe");
+  client.end();
 });
 
-// //USERS
-// app.get("/allusers", async (req, res) => {
-//   const allUsers = await client.query("SELECT * FROM users");
-//   res.json(allUsers.rows);
-// });
-
-// app.post("/newuser", (req, resp) => {
-//   console.log(req.body);
-//   client.query(
-//     `INSERT INTO users (email, name, hash) VALUES ('${req.body.email}', '${req.body.name}', '${req.body.hash}')`,
-//     (err, res) => {
-//       if (err) {
-//         console.log("pg returned an error");
-//         resp.send("Couldnt add user");
-//       }
-//       if (res) {
-//         resp.send("Added new user");
-//       }
-//     }
-//   );
-// });
-
-// app.put("/deleteusers", (req, res) => {
-//   client.query("DELETE FROM users");
-//   res.send("Deleted all users");
-// });
-
-// app.put("/signin", async (req, resp) => {
-//   try {
-//     const ans = await client.query(
-//       `SELECT hash FROM users WHERE email = '${req.body.email}'`
-//     );
-
-//     if (req.body.hash == ans.rows[0].hash) {
-//       resp.send("Successful login");
-//     } else {
-//       resp.send("Check password");
-//     }
-//   } catch (err) {
-//     resp.send("No such user found");
-//   }
-// });
-
 //POSTS
-
 // create table posts (id serial primary key, author text, title text, content text not null, tags text, date date not null default current_date);
 
 app.post("/newpost", (req, resp) => {
   console.log(req.body);
-  client.query(
+  pool.query(
     `INSERT INTO posts (author, title, content, tags) VALUES ('${req.body.author}', '${req.body.title}', '${req.body.content}', '${req.body.tags}')`,
     (err, res) => {
       if (err) {
@@ -102,24 +61,25 @@ app.post("/newpost", (req, resp) => {
 });
 
 app.get("/allposts", async (req, res) => {
-  const allPosts = await client.query("SELECT * FROM posts ORDER BY date desc");
+  const allPosts = await pool.query("SELECT * FROM posts ORDER BY date desc");
   res.json(allPosts.rows);
 });
 
 app.get("/posts/:id", async (req, res) => {
   const id = req.params.id;
-  const post = await client.query(`SELECT * FROM posts WHERE id = ${id}`);
+  const post = await pool.query(`SELECT * FROM posts WHERE id = ${id}`);
 
   res.json(post.rows);
 });
 
 app.put("/deleteposts", (req, res) => {
-  client.query("DELETE FROM posts");
+  pool.query("DELETE FROM posts");
+
   res.send("Deleted all posts");
 });
 
 app.put("/deletetoppost", (req, res) => {
-  client.query(
+  pool.query(
     "DELETE FROM posts WHERE id = (SELECT id FROM posts ORDER BY date desc LIMIT 1)"
   );
   res.send("Deleted top post");
