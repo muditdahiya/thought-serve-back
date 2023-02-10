@@ -36,7 +36,7 @@ pool.connect();
 //REQUESTS
 app.get("/", (req, res) => {
   client.connect();
-  res.send("This is back end of ThoughtServe");
+  res.send("This is back end of ThoughtServe with pooling");
   client.end();
 });
 
