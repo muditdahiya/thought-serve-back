@@ -83,6 +83,12 @@ app.put("/deletetoppost", (req, res) => {
   res.send("Deleted top post");
 });
 
+app.put("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  pool.query(`DELETE FROM posts WHERE id = ${id}`);
+  res.send(`Deleted post id: ${id}`);
+});
+
 //START SERVER
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
