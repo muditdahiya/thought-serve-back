@@ -35,7 +35,7 @@ pool.connect();
 
 //REQUESTS
 app.get("/", (req, res) => {
-  res.send("This is back end of ThoughtServe with pooling");
+  res.send("This is back end of ThoughtServe with id delete");
 });
 
 //POSTS
